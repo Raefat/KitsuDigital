@@ -39,18 +39,26 @@ export async function login(_prev: ActionState, formData: FormData): Promise<Act
 
   if (!password) return { error: 'Enter your password.' }
 
+  // Issuing the cookie has to be inside this try as well. It needs AUTH_SECRET,
+  // and when that is unset the throw used to escape as an unhandled server
+  // action error — the form just failed with nothing useful on screen.
   try {
     if (!isPasswordCorrect(password)) {
       return { error: 'That password is not right.' }
     }
+
+    const store = await cookies()
+    store.set(SESSION_COOKIE, await createSessionToken(), sessionCookieOptions)
   } catch (error) {
     console.error('[admin] auth is not configured:', error)
-    return { error: 'Admin access is not configured on this server yet.' }
+    return {
+      error:
+        'Admin access is not configured on this server. ADMIN_PASSWORD and AUTH_SECRET must both be set.',
+    }
   }
 
-  const store = await cookies()
-  store.set(SESSION_COOKIE, await createSessionToken(), sessionCookieOptions)
-
+  // redirect() signals by throwing, so it must stay outside the try above or the
+  // catch would swallow it and the login would silently do nothing.
   // Only ever bounce to an in-app path, so a crafted ?next= cannot turn the
   // login form into an open redirect.
   redirect(next.startsWith('/admin') ? next : '/admin')
