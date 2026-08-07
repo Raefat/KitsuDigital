@@ -49,27 +49,18 @@ export function Loader() {
           transition={{ duration: 0.35 }}
           aria-hidden="true"
         >
-          <div className="relative">
-            <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-              <path
-                d="M50 15 L65 5 L72 30 L85 25 L78 50 L90 55 L70 60 L72 80 L50 70 L28 80 L30 60 L10 55 L22 50 L15 25 L28 30 L35 5 Z"
-                stroke="#F97316"
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-                strokeDasharray="400"
-                strokeDashoffset="400"
-                style={{ animation: 'fox-draw 0.8s ease-out forwards' }}
-              />
-            </svg>
-            <motion.div
-              className="absolute inset-0 -z-10"
-              style={{
-                background: 'radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)',
-              }}
-              animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.6, 0.3] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          {/* A single arc rotating inside a faint track. Nothing to recognise,
+              nothing to draw — it just says "a moment" and gets out of the way. */}
+          <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+            <circle cx="17" cy="17" r="14" stroke="#F97316" strokeOpacity="0.15" strokeWidth="2.5" />
+            <path
+              d="M17 3a14 14 0 0 1 14 14"
+              stroke="#F97316"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              style={{ transformOrigin: '17px 17px', animation: 'loader-spin 0.7s linear infinite' }}
             />
-          </div>
+          </svg>
         </motion.div>
       )}
     </AnimatePresence>

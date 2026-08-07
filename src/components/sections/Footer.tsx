@@ -6,18 +6,22 @@ import { AnimatedSection } from '@/components/shared/AnimatedSection'
 import { Container } from '@/components/shared/Container'
 import { siteConfig, activeSocials } from '@/config/site'
 
+// Mirrors the six entries in `services` (src/config/content.ts). If you add or
+// rename one there, change it here too.
 const serviceLinks = [
-  { label: 'Web Design', href: '/#services' },
-  { label: 'Development', href: '/#services' },
-  { label: 'AI Automation', href: '/#services' },
-  { label: 'Ecommerce', href: '/#services' },
-  { label: 'Brand Identity', href: '/#services' },
-  { label: 'SEO', href: '/#services' },
+  { label: 'Websites', href: '/#services' },
+  { label: 'Online stores', href: '/#services' },
+  { label: 'SEO & performance', href: '/#services' },
+  { label: 'Web apps', href: '/#services' },
+  { label: 'Brand identity', href: '/#services' },
+  { label: 'Care plan', href: '/#services' },
 ]
 
+// No 'Work' entry — the portfolio section is not on the page while it still
+// holds invented case studies, and this linked to a #portfolio anchor that no
+// longer exists.
 const companyLinks = [
   { label: 'Process', href: '/#process' },
-  { label: 'Work', href: '/#portfolio' },
   { label: 'Pricing', href: '/#pricing' },
   { label: 'Journal', href: '/blog' },
   { label: 'FAQ', href: '/#faq' },
@@ -156,6 +160,16 @@ export function Footer() {
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-kitsu-border pt-8 sm:flex-row">
           <p className="text-xs text-kitsu-dim">
             © {year} {siteConfig.legalName}. All rights reserved.
+            <span className="mx-2 text-kitsu-border">·</span>
+            Made by{' '}
+            <a
+              href="https://raefet.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="animated-underline text-kitsu-muted transition-colors duration-300 hover:text-fox"
+            >
+              raefet.com
+            </a>
           </p>
           <div className="flex items-center gap-6">
             <Link

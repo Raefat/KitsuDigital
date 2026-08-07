@@ -55,7 +55,12 @@ export function Hero() {
           sticky scroll sequence that faded the subheadline and buttons in as you
           scrolled — which meant landing on the page showed a headline and no
           call to action at all. */}
-      <div className="flex min-h-screen items-center justify-center overflow-hidden py-28">
+      {/* `relative` is load-bearing: the aurora and ember layers below are
+          absolutely positioned and hang past the right edge. Without it their
+          containing block is the <section>, which sits outside this wrapper —
+          so `overflow-hidden` would not clip them and the page scrolled
+          sideways by 80px. */}
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden py-28">
         {/* Background grid */}
         <div
           className="absolute inset-0 opacity-[0.04]"

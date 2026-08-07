@@ -21,7 +21,7 @@ export const siteConfig = {
   founded: '2023', // PLACEHOLDER — set the real founding year
 
   contact: {
-    email: 'hello@kitsudigital.com', // PLACEHOLDER
+    email: 'contact@kitsu.digital',
     // PLACEHOLDER — Moroccan format, e.g. '+212 6 12 34 56 78'. Leave null to hide it.
     phone: null as string | null,
   },

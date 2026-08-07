@@ -221,6 +221,13 @@
     stroke-dashoffset: 0;
   }
 }
+/* Own keyframe rather than Tailwind's animate-spin, so the inline style in
+   Loader cannot break if that utility is never emitted into the bundle. */
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @keyframes loader-fade {
   0% { opacity: 1; }
   80% { opacity: 1; }
