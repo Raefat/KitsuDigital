@@ -106,7 +106,7 @@ export function PostEditor({ post }: { post?: EditablePost }) {
             type="button"
             onClick={() => setShowPreview(false)}
             className={`rounded-md px-3 py-1.5 text-xs transition-colors ${
-              !showPreview ? 'bg-fox/10 text-fox' : 'text-kitsu-dim hover:text-white'
+              !showPreview ? 'bg-fox/10 text-fox' : 'text-kitsu-dim hover:text-kitsu-bg'
             }`}
           >
             Write
@@ -115,7 +115,7 @@ export function PostEditor({ post }: { post?: EditablePost }) {
             type="button"
             onClick={() => setShowPreview(true)}
             className={`rounded-md px-3 py-1.5 text-xs transition-colors ${
-              showPreview ? 'bg-fox/10 text-fox' : 'text-kitsu-dim hover:text-white'
+              showPreview ? 'bg-fox/10 text-fox' : 'text-kitsu-dim hover:text-kitsu-bg'
             }`}
           >
             Preview
@@ -207,7 +207,7 @@ export function PostEditor({ post }: { post?: EditablePost }) {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-fox px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="rounded-lg bg-fox px-6 py-3 font-semibold text-kitsu-bg transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {pending ? 'Saving…' : post ? 'Save changes' : 'Create post'}
         </button>

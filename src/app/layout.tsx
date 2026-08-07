@@ -6,24 +6,34 @@ import { JsonLd } from '@/components/shared/JsonLd'
 import { siteConfig, absoluteUrl } from '@/config/site'
 import { organizationSchema, websiteSchema } from '@/lib/seo'
 
+/**
+ * Weights are pinned to what the components actually render — 400, 500, 600 and
+ * 700. `font-extrabold` appears nowhere, so Jakarta's 800 was pure download.
+ * Inter stays variable: one file covering the whole axis beats four static cuts.
+ */
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
 })
 
+/**
+ * No `weight` on any of these on purpose — that makes next/font emit the single
+ * variable file per family instead of one static cut per weight. Next only
+ * preloads one file per family, so with static weights the heading face arrived
+ * late and re-wrapped the 88px headline (0.071 CLS, all of it that one element).
+ * One variable file is the file that gets preloaded, so it is there before paint.
+ */
 const jakarta = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
 })
 
 const grotesk = Space_Grotesk({
   variable: '--font-grotesk',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
@@ -120,7 +130,7 @@ export default function RootLayout({
       >
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[10001] focus:rounded-lg focus:bg-fox focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[10001] focus:rounded-lg focus:bg-fox focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-kitsu-bg"
         >
           Skip to content
         </a>

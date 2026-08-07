@@ -51,7 +51,6 @@ export default function Home() {
         <LatestPosts />
         <FAQ />
         <Contact />
-        <FinalCTA />
       </main>
 
       <Footer />

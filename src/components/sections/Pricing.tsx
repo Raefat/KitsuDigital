@@ -118,7 +118,7 @@ export function Pricing() {
               {/* Popular badge */}
               {plan.highlighted && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-fox text-xs font-semibold text-white px-3 py-1 rounded-full">
+                  <span className="bg-fox text-xs font-semibold text-kitsu-bg px-3 py-1 rounded-full">
                     Most Popular
                   </span>
                 </div>

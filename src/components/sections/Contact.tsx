@@ -302,7 +302,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-fox px-8 py-3.5 font-semibold text-white fox-glow transition-all duration-300 hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-fox px-8 py-3.5 font-semibold text-kitsu-bg fox-glow transition-all duration-300 hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {status === 'sending' ? (
                   <>

@@ -44,7 +44,7 @@ export function MagneticButton({
 
   const variantClasses = {
     primary:
-      'bg-fox text-white fox-glow hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] active:scale-[0.97]',
+      'bg-fox text-kitsu-bg fox-glow hover:shadow-[0_0_40px_rgba(249,115,22,0.3)] active:scale-[0.97]',
     ghost: 'text-fox-light hover:text-fox hover:bg-white/5',
     outline:
       'border border-fox/30 text-fox hover:bg-fox/10 hover:border-fox',

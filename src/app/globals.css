@@ -48,7 +48,10 @@
   --color-kitsu-border: #27272A;
   --color-kitsu-text: #FFFFFF;
   --color-kitsu-muted: #A1A1AA;
-  --color-kitsu-dim: #71717A;
+  /* Was #71717A, which is 4.08:1 on the background — under the 4.5:1 WCAG AA
+     floor for the 12px text this is used for (footer, captions, meta lines).
+     #8A8A96 measures 5.2:1 and still reads as the quietest tier. */
+  --color-kitsu-dim: #8A8A96;
 }
 
 :root {

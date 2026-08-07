@@ -149,7 +149,7 @@ export function Footer() {
 
             <Link
               href="/#contact"
-              className="inline-block rounded-full bg-fox px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(249,115,22,0.25)] active:scale-[0.97]"
+              className="inline-block rounded-full bg-fox px-6 py-2.5 text-sm font-semibold text-kitsu-bg transition-all duration-300 hover:shadow-[0_0_30px_rgba(249,115,22,0.25)] active:scale-[0.97]"
             >
               Start a project
             </Link>

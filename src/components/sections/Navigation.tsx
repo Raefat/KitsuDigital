@@ -191,7 +191,7 @@ export function Navigation() {
             >
               <Link
                 href={contactHref}
-                className="mt-2 block rounded-full bg-fox px-8 py-3 font-semibold text-white"
+                className="mt-2 block rounded-full bg-fox px-8 py-3 font-semibold text-kitsu-bg"
                 onClick={() => setMobileOpen(false)}
               >
                 Get in Touch
@@ -213,7 +213,7 @@ export function Navigation() {
           >
             <Link
               href={contactHref}
-              className="block rounded-full bg-fox px-5 py-2.5 text-sm font-semibold text-white fox-glow transition-shadow hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]"
+              className="block rounded-full bg-fox px-5 py-2.5 text-sm font-semibold text-kitsu-bg fox-glow transition-shadow hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]"
             >
               Book a Call
             </Link>

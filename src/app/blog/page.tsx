@@ -126,7 +126,7 @@ export default async function BlogPage() {
                 </p>
                 <Link
                   href="/#contact"
-                  className="inline-block rounded-full bg-fox px-8 py-3.5 font-semibold text-white fox-glow transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(249,115,22,0.3)]"
+                  className="inline-block rounded-full bg-fox px-8 py-3.5 font-semibold text-kitsu-bg fox-glow transition-shadow duration-300 hover:shadow-[0_0_40px_rgba(249,115,22,0.3)]"
                 >
                   Start a project
                 </Link>

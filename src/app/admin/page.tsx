@@ -48,7 +48,7 @@ export default async function AdminPage({
         <div className="flex items-center gap-3">
           <Link
             href="/admin/new"
-            className="rounded-lg bg-fox px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="rounded-lg bg-fox px-4 py-2.5 text-sm font-semibold text-kitsu-bg transition-opacity hover:opacity-90"
           >
             New post
           </Link>

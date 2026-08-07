@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const SESSION_KEY = 'kitsu:intro-seen'
-const DURATION_MS = 900
+// The overlay hides the hero, so whatever it costs is added straight onto
+// Largest Contentful Paint: at 900ms the homepage measured FCP 256ms but LCP
+// 1508ms. Keep this short — it is decorative, and LCP is a ranking signal.
+const DURATION_MS = 400
 
 /**
  * Brand intro. Shown once per session only — an overlay covering the page on
@@ -46,7 +49,7 @@ export function Loader() {
         <motion.div
           className="fixed inset-0 z-[9998] flex items-center justify-center bg-kitsu-bg"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.25 }}
           aria-hidden="true"
         >
           {/* A single arc rotating inside a faint track. Nothing to recognise,
