@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
+import { Container } from '@/components/shared/Container';
 
 const techItems = [
   {
@@ -150,7 +151,12 @@ const techItems = [
 
 export function TechStack() {
   return (
-    <section className="relative py-24 md:py-32">
+    <section
+      id="tech"
+      className="relative scroll-mt-20 py-24 md:py-32"
+      aria-labelledby="tech-heading"
+    >
+      <Container>
       {/* Section header */}
       <AnimatedSection direction="up" delay={0}>
         <div className="mb-16 text-center">
@@ -158,6 +164,7 @@ export function TechStack() {
             Technology
           </p>
           <h2
+            id="tech-heading"
             className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl"
             style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
           >
@@ -186,6 +193,7 @@ export function TechStack() {
           </AnimatedSection>
         ))}
       </div>
+      </Container>
     </section>
   );
 }

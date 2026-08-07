@@ -7,9 +7,9 @@ import { AnimatedSection } from '@/components/shared/AnimatedSection';
 const steps = [
   {
     number: '01',
-    title: 'Discovery',
+    title: 'A conversation',
     description:
-      'We dive deep into your business, audience, and goals. No assumptions — just data-driven understanding of what moves the needle for you.',
+      'Thirty minutes on what your business does, who you want to reach, and what the site has to achieve. Free, and you are not signing anything.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="11" cy="11" r="7" stroke="#F97316" strokeWidth="1.5" />
@@ -21,9 +21,9 @@ const steps = [
   },
   {
     number: '02',
-    title: 'Strategy',
+    title: 'A fixed quote',
     description:
-      'We map out the architecture, features, and user flows. Every decision is tied to a measurable business outcome.',
+      'Within two days you get the pages, the timeline and the price in writing. That price does not move unless you change the scope.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="12" cy="12" r="9" stroke="#F97316" strokeWidth="1.5" />
@@ -37,9 +37,9 @@ const steps = [
   },
   {
     number: '03',
-    title: 'Design',
+    title: 'Design and build',
     description:
-      'Pixel-perfect interfaces crafted for conversion. Every element is intentional, every interaction is tested.',
+      'You see the design before a line of code is written, and you get two rounds of changes on it. Then we build the real thing.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="#F97316" strokeWidth="1.5" strokeLinejoin="round" />
@@ -50,51 +50,14 @@ const steps = [
   },
   {
     number: '04',
-    title: 'Development',
+    title: 'Launch and hand over',
     description:
-      'Clean, scalable code built for performance. We use modern stacks that grow with your business.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 6L3 12L8 18" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M16 6L21 12L16 18" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <line x1="14" y1="4" x2="10" y2="20" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    number: '05',
-    title: 'Testing',
-    description:
-      'Rigorous QA across devices, browsers, and edge cases. We ship confident, not hopeful.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L3 7V17C3 19.8 7 22.5 12 22.5C17 22.5 21 19.8 21 17V7L12 2Z" stroke="#F97316" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M9 12L11 14L15 10" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
-    number: '06',
-    title: 'Launch',
-    description:
-      'Seamless deployment with zero downtime. Your product goes live and starts generating results immediately.',
+      'We put it live, connect Google, and show you how to update it yourself. Thirty days of fixes are included, and everything is in your name.',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2C12 2 4 10 4 15C4 18.9 7.6 22 12 22C16.4 22 20 18.9 20 15C20 10 12 2 12 2Z" stroke="#F97316" strokeWidth="1.5" strokeLinejoin="round" />
         <path d="M12 18C14.2 18 16 16.6 16 15C16 12 12 9 12 9C12 9 8 12 8 15C8 16.6 9.8 18 12 18Z" stroke="#F97316" strokeWidth="1.5" strokeLinejoin="round" />
         <line x1="12" y1="15" x2="12" y2="12" stroke="#F97316" strokeWidth="1" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    number: '07',
-    title: 'Growth',
-    description:
-      'Ongoing optimization based on real user data. We iterate fast and compound your results over time.',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 20L9 14L13 17L21 8" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M16 8H21V13" stroke="#F97316" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -131,16 +94,16 @@ function StepCard({
       direction={isEven ? 'left' : 'right'}
       delay={0.15 + index * 0.08}
     >
+      {/* Three cells in fixed DOM order: left · dot · right. The alternation is
+          done by choosing which side cell gets the content, never by CSS order —
+          reordering moved the dot out of the centre `auto` column and left the
+          icons floating away from the timeline on every second step. */}
       <div className="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 md:gap-0 items-start">
-        {/* Left content (visible on even items) / empty on odd */}
-        <div
-          className={`md:pr-12 ${isEven ? 'md:text-right' : 'md:order-3 md:pl-12 md:text-left'}`}
-        >
+        <div className="hidden md:block md:pr-12 md:text-right">
           {isEven && <StepContent step={step} align="right" />}
-          {!isEven && <div className="hidden md:block" />}
         </div>
 
-        {/* Center dot */}
+        {/* Center dot — always the middle column */}
         <div className="flex md:flex-col items-start md:items-center">
           <div className="md:sticky md:top-1/2 z-10 flex items-center justify-center">
             <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-fox bg-[#0A0A0F] shadow-[0_0_20px_rgba(249,115,22,0.15)] transition-shadow duration-300">
@@ -150,12 +113,8 @@ function StepCard({
           </div>
         </div>
 
-        {/* Right content (visible on odd items) / empty on even */}
-        <div
-          className={`md:pl-12 ${!isEven ? 'md:order-1 md:text-right md:pr-12' : 'md:order-3 md:pl-12 md:text-left'}`}
-        >
+        <div className="hidden md:block md:pl-12 md:text-left">
           {!isEven && <StepContent step={step} align="left" />}
-          {isEven && <div className="hidden md:block" />}
         </div>
 
         {/* Mobile: always show content to the right of the dot */}
@@ -192,7 +151,14 @@ function StepContent({
           {step.title}
         </span>
       </div>
-      <p className="text-sm md:text-base leading-relaxed text-kitsu-muted max-w-sm" style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}>
+      {/* max-w-sm keeps the line length readable; on the left side the box has to
+          be pushed right or the text strands itself against the page edge. */}
+      <p
+        className={`text-sm md:text-base leading-relaxed text-kitsu-muted max-w-sm ${
+          align === 'right' ? 'md:ml-auto' : ''
+        }`}
+        style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
+      >
         {step.description}
       </p>
     </div>
@@ -203,7 +169,12 @@ export function Process() {
   const containerRef = useRef<HTMLElement>(null);
 
   return (
-    <section ref={containerRef} className="relative py-24 md:py-32 overflow-hidden">
+    <section
+      ref={containerRef}
+      id="process"
+      className="relative scroll-mt-20 overflow-hidden py-24 md:py-32"
+      aria-labelledby="process-heading"
+    >
       {/* Background subtle radial glow */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none"
@@ -226,14 +197,14 @@ export function Process() {
               How we work
             </p>
             <h2
+              id="process-heading"
               className="mb-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white"
               style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
             >
-              Our Process
+              Four steps, no surprises
             </h2>
             <p className="max-w-2xl mx-auto text-base md:text-lg text-kitsu-muted leading-relaxed">
-              A battle-tested framework refined across 147+ projects. No wasted
-              steps — every phase is engineered to move you closer to measurable growth.
+              You always know what happens next, what it costs, and when it is done.
             </p>
           </div>
         </AnimatedSection>

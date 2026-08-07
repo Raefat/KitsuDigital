@@ -1,117 +1,155 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useScrollDirection } from '@/hooks/useScrollDirection';
-import { FoxMark } from '@/components/shared/FoxMark';
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useScrollDirection } from '@/hooks/useScrollDirection'
+import { FoxMark } from '@/components/shared/FoxMark'
 
 const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
-  { label: 'Work', href: '#portfolio' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQ', href: '#faq' },
-];
+  { label: 'Services', hash: '#services' },
+  { label: 'Process', hash: '#process' },
+  { label: 'Pricing', hash: '#pricing' },
+  { label: 'Journal', href: '/blog' },
+  { label: 'FAQ', hash: '#faq' },
+]
 
 export function Navigation() {
-  const { scrollDirection, scrollY, isAtTop } = useScrollDirection();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const { scrollDirection, scrollY, isAtTop } = useScrollDirection()
+  const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
 
-  // Scroll spy
+  const isHome = pathname === '/'
+
+  /** Anchors only exist on the home page, so nothing is active anywhere else. */
+  const currentSection = isHome ? activeSection : ''
+
+  /** Section anchors only resolve on the home page; prefix them elsewhere. */
+  const resolveHref = (link: (typeof navLinks)[number]) =>
+    link.href ?? (isHome ? link.hash! : `/${link.hash}`)
+
+  // Scroll spy — only meaningful on the home page.
   useEffect(() => {
-    const sections = navLinks.map((l) => l.href.replace('#', ''));
+    if (!isHome) return
+
+    const ids = navLinks.filter((l) => l.hash).map((l) => l.hash!.slice(1))
     const handleScroll = () => {
-      for (const id of [...sections].reverse()) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(id);
-            return;
-          }
+      for (const id of [...ids].reverse()) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= 150) {
+          setActiveSection(id)
+          return
         }
       }
-      setActiveSection('');
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      setActiveSection('')
+    }
 
-  const isNavVisible = scrollDirection === 'up' || isAtTop;
-  const hasScrolled = scrollY > 100;
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isHome])
+
+  // Lock body scroll while the mobile menu is open.
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileOpen])
+
+  // Close the mobile menu on Escape.
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [mobileOpen])
+
+  const isNavVisible = scrollDirection === 'up' || isAtTop || mobileOpen
+  const hasScrolled = scrollY > 100
+
+  const contactHref = isHome ? '#contact' : '/#contact'
 
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          hasScrolled
-            ? 'bg-kitsu-bg/80 backdrop-blur-xl border-b border-kitsu-border'
+        className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-300 ${
+          hasScrolled || !isHome
+            ? 'border-b border-kitsu-border bg-kitsu-bg/80 backdrop-blur-xl'
             : 'bg-transparent'
         }`}
         initial={{ y: 0 }}
         animate={{ y: isNavVisible ? 0 : -100 }}
         transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <nav className="max-w-7xl mx-auto px-6 h-16 md:h-18 flex items-center justify-between">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group" aria-label="Kitsu Digital home">
-            <FoxMark size={28} className="text-fox transition-transform duration-300 group-hover:scale-110" />
-            <span
-              className="text-lg font-bold tracking-tight text-white"
-              style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
-            >
-              Kitsu
-              <span className="text-fox">Digital</span>
+        <nav
+          className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 md:h-18 lg:px-8"
+          aria-label="Main"
+        >
+          <Link href="/" className="group flex items-center gap-2.5" aria-label="Kitsu Digital home">
+            <FoxMark
+              size={28}
+              className="text-fox transition-transform duration-300 group-hover:scale-110"
+            />
+            <span className="font-heading text-lg font-bold tracking-tight text-white">
+              Kitsu<span className="text-fox">Digital</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`animated-underline text-sm font-medium transition-colors duration-200 ${
-                  activeSection === link.href.replace('#', '')
-                    ? 'text-fox'
-                    : 'text-kitsu-muted hover:text-white'
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
+          <div className="hidden items-center gap-8 md:flex">
+            {navLinks.map((link) => {
+              const isActive = link.href
+                ? pathname.startsWith(link.href)
+                : currentSection === link.hash!.slice(1)
+              return (
+                <Link
+                  key={link.label}
+                  href={resolveHref(link)}
+                  className={`animated-underline text-sm font-medium transition-colors duration-200 ${
+                    isActive ? 'text-fox' : 'text-kitsu-muted hover:text-white'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="#contact"
-              className="text-sm font-medium text-fox hover:text-fox-light transition-colors animated-underline"
-            >
-              Get in Touch
-            </a>
-          </div>
+          <Link
+            href={contactHref}
+            className="animated-underline hidden text-sm font-medium text-fox transition-colors hover:text-fox-light md:block"
+          >
+            Get in Touch
+          </Link>
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            type="button"
+            className="flex flex-col gap-1.5 p-2 md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             <motion.span
-              className="block w-5 h-[1.5px] bg-white"
+              className="block h-[1.5px] w-5 bg-white"
               animate={mobileOpen ? { rotate: 45, y: 5.5 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.2 }}
             />
             <motion.span
-              className="block w-5 h-[1.5px] bg-white"
+              className="block h-[1.5px] w-5 bg-white"
               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
               transition={{ duration: 0.1 }}
             />
             <motion.span
-              className="block w-5 h-[1.5px] bg-white"
+              className="block h-[1.5px] w-5 bg-white"
               animate={mobileOpen ? { rotate: -45, y: -5.5 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.2 }}
             />
@@ -123,42 +161,49 @@ export function Navigation() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-[99] bg-kitsu-bg/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8"
+            id="mobile-menu"
+            className="fixed inset-0 z-[99] flex flex-col items-center justify-center gap-7 bg-kitsu-bg/95 backdrop-blur-xl md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
             {navLinks.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                className="text-2xl font-semibold text-white hover:text-fox transition-colors"
+              <motion.div
+                key={link.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-                onClick={() => setMobileOpen(false)}
+                transition={{ delay: i * 0.07, duration: 0.4 }}
               >
-                {link.label}
-              </motion.a>
+                <Link
+                  href={resolveHref(link)}
+                  className="text-2xl font-semibold text-white transition-colors hover:text-fox"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
-            <motion.a
-              href="#contact"
-              className="mt-4 px-8 py-3 bg-fox text-white rounded-full font-semibold"
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              onClick={() => setMobileOpen(false)}
+              transition={{ delay: 0.45, duration: 0.4 }}
             >
-              Get in Touch
-            </motion.a>
+              <Link
+                href={contactHref}
+                className="mt-2 block rounded-full bg-fox px-8 py-3 font-semibold text-white"
+                onClick={() => setMobileOpen(false)}
+              >
+                Get in Touch
+              </Link>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Sticky CTA (appears after hero) */}
+      {/* Sticky CTA, once past the fold */}
       <AnimatePresence>
-        {!isAtTop && (
+        {!isAtTop && !mobileOpen && (
           <motion.div
             className="fixed bottom-6 right-6 z-[90]"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -166,15 +211,15 @@ export function Navigation() {
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3 }}
           >
-            <a
-              href="#contact"
-              className="block px-5 py-2.5 bg-fox text-white text-sm font-semibold rounded-full fox-glow hover:shadow-[0_0_30px_rgba(249,115,22,0.3)] transition-shadow"
+            <Link
+              href={contactHref}
+              className="block rounded-full bg-fox px-5 py-2.5 text-sm font-semibold text-white fox-glow transition-shadow hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]"
             >
               Book a Call
-            </a>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
     </>
-  );
+  )
 }

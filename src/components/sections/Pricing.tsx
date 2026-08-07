@@ -3,6 +3,7 @@
 import { Check } from 'lucide-react';
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
 import { MagneticButton } from '@/components/shared/MagneticButton';
+import { Container } from '@/components/shared/Container';
 
 interface PricingCard {
   name: string;
@@ -15,67 +16,73 @@ interface PricingCard {
   ctaVariant: 'primary' | 'outline';
 }
 
+// PLACEHOLDER PRICES — these amounts and the currency came from the template.
+// Set your real numbers before launch: publishing a price you will not honour is
+// worse than publishing none, and this section is the page's main promise.
 const plans: PricingCard[] = [
   {
-    name: 'Starter',
+    name: 'Presence',
     price: '$2,499',
-    period: 'per project',
-    description: 'Perfect for small businesses and MVPs.',
+    period: 'one-off',
+    description: 'For a business that needs to exist properly online.',
     features: [
-      'Custom website (up to 5 pages)',
-      'Mobile responsive',
-      'Basic SEO',
-      'Contact form',
-      '2 revision rounds',
-      '2-3 week delivery',
+      'Up to 5 pages, written by us',
+      'Works on every phone and screen',
+      'Google Business Profile set up',
+      'Contact form to your inbox',
+      '2 rounds of changes',
+      'Live in 3 weeks',
     ],
     highlighted: false,
-    cta: 'Get Started',
+    cta: 'Get a quote',
     ctaVariant: 'outline',
   },
   {
     name: 'Growth',
     price: '$4,999',
-    period: 'per project',
-    description: 'For brands ready to scale and convert.',
+    period: 'one-off',
+    description: 'For a business that wants the site to bring in work.',
     features: [
-      'Custom website (up to 10 pages)',
-      'Advanced UI/UX design',
-      'E-commerce integration',
-      'AI-powered features',
-      'SEO optimization',
-      'Performance tuning',
-      'CMS integration',
-      '3 revision rounds',
-      '3-4 week delivery',
+      'Everything in Presence',
+      'Up to 10 pages, or a small store',
+      'Full SEO setup and sitemap',
+      'Speed tuned to load under 2s',
+      'Blog you can update yourself',
+      'Analytics, so you see what works',
+      '3 rounds of changes',
+      'Live in 4 weeks',
     ],
     highlighted: true,
-    cta: 'Start Growing',
+    cta: 'Get a quote',
     ctaVariant: 'primary',
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'tailored scope',
-    description: 'For complex products and enterprise needs.',
+    name: 'Custom',
+    price: 'Quoted',
+    period: 'fixed, before we start',
+    description: 'For stores, booking systems and web apps.',
     features: [
-      'Full SaaS development',
-      'Custom integrations',
-      'AI/ML implementation',
-      'Dedicated team',
-      'Priority support',
-      'Ongoing maintenance',
-      'Custom timeline',
+      'Online stores of any size',
+      'Booking and client portals',
+      'Multilingual, including Arabic RTL',
+      'Integrations with tools you use',
+      'Timeline agreed upfront',
+      'Monthly care plan available',
     ],
     highlighted: false,
-    cta: 'Contact Us',
+    cta: 'Tell us the scope',
     ctaVariant: 'outline',
   },
 ];
 
 export function Pricing() {
   return (
-    <section className="relative py-24 md:py-32">
+    <section
+      id="pricing"
+      className="relative scroll-mt-20 py-24 md:py-32"
+      aria-labelledby="pricing-heading"
+    >
+      <Container>
       {/* Section header */}
       <AnimatedSection direction="up" delay={0}>
         <div className="mb-16 text-center">
@@ -83,15 +90,16 @@ export function Pricing() {
             Pricing
           </p>
           <h2
+            id="pricing-heading"
             className="mb-4 text-3xl font-bold text-white md:text-4xl lg:text-5xl"
             style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
           >
-            Transparent Pricing,{' '}
-            <span className="gradient-text-fox">Exceptional Value</span>
+            Here are the prices.{' '}
+            <span className="gradient-text-fox">No call required.</span>
           </h2>
           <p className="mx-auto max-w-xl text-base text-kitsu-muted leading-relaxed md:text-lg">
-            No hidden fees, no surprises. Choose the plan that matches your
-            ambition and we will handle the rest.
+            Most agencies make you sit through a sales call to find out. Your quote is
+            fixed before we start, and it includes the writing.
           </p>
         </div>
       </AnimatedSection>
@@ -159,8 +167,9 @@ export function Pricing() {
 
               {/* CTA */}
               <MagneticButton
+                href="#contact"
                 variant={plan.ctaVariant}
-                className="w-full justify-center"
+                className="block w-full text-center"
               >
                 {plan.cta}
               </MagneticButton>
@@ -168,6 +177,7 @@ export function Pricing() {
           </AnimatedSection>
         ))}
       </div>
+      </Container>
     </section>
   );
 }

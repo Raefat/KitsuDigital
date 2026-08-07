@@ -84,6 +84,30 @@
   }
   html {
     scroll-behavior: smooth;
+    /* Anchored sections must clear the fixed header. */
+    scroll-padding-top: 5rem;
+  }
+  /* Visible keyboard focus everywhere; the amber ring matches the theme. */
+  :focus-visible {
+    outline: 2px solid #F97316;
+    outline-offset: 2px;
+  }
+}
+
+/* ===== REDUCED MOTION =====
+   Framer Motion and the scroll sequences are handled per-component; this is the
+   backstop for CSS animations (embers, aurora, marquees, the loader draw). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

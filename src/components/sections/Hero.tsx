@@ -1,59 +1,61 @@
-'use client';
+'use client'
 
-import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { MagneticButton } from '@/components/shared/MagneticButton';
-import { useCountUp } from '@/hooks/useCountUp';
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { Check } from 'lucide-react'
+import { MagneticButton } from '@/components/shared/MagneticButton'
+import { siteConfig } from '@/config/site'
+import { commitments } from '@/config/content'
 
-const headlineWords = ['Digital', 'Products', 'That', 'Turn', 'Visitors', 'Into', 'Revenue'];
-const subheadline = 'We design and build premium digital experiences for ambitious brands that demand more than templates and freelancers.';
+// Two sentences: the problem the visitor already recognises, then the promise.
+// `accent` marks the words that carry the promise, in fox orange.
+const headlineWords = [
+  { text: 'Most', accent: false },
+  { text: 'websites', accent: false },
+  { text: 'just', accent: false },
+  { text: 'sit', accent: false },
+  { text: 'there.', accent: false },
+  { text: 'Yours', accent: true },
+  { text: "won't.", accent: true },
+]
+const subheadline =
+  'We build fast, search-ready websites for Moroccan businesses. Live in three weeks, at a price we publish upfront.'
 
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const auroraRef = useRef<HTMLDivElement>(null);
-
-  const metric1 = useCountUp({ end: 147, suffix: '+', duration: 2000, enabled: scrollProgress > 0.4 });
-  const metric2 = useCountUp({ end: 12, prefix: '$', suffix: 'M+', duration: 2000, enabled: scrollProgress > 0.5 });
-  const metric3 = useCountUp({ end: 98, suffix: '%', duration: 1800, enabled: scrollProgress > 0.55 });
+  const sectionRef = useRef<HTMLElement>(null)
+  const auroraRef = useRef<HTMLDivElement>(null)
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const sync = () => setReducedMotion(query.matches)
+    sync()
+    query.addEventListener('change', sync)
+    return () => query.removeEventListener('change', sync)
+  }, [])
 
-    const handleScroll = () => {
-      const rect = section.getBoundingClientRect();
-      const totalScroll = section.offsetHeight - window.innerHeight;
-      const progress = Math.max(0, Math.min(1, -rect.top / totalScroll));
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Aurora follows mouse
+  // Aurora drifts with the pointer.
   useEffect(() => {
-    const aurora = auroraRef.current;
-    if (!aurora) return;
+    const aurora = auroraRef.current
+    if (!aurora || reducedMotion) return
+
     const handleMouse = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      aurora.style.transform = `translate(${x}px, ${y}px)`;
-    };
-    window.addEventListener('mousemove', handleMouse);
-    return () => window.removeEventListener('mousemove', handleMouse);
-  }, []);
+      const x = (e.clientX / window.innerWidth - 0.5) * 20
+      const y = (e.clientY / window.innerHeight - 0.5) * 20
+      aurora.style.transform = `translate(${x}px, ${y}px)`
+    }
+
+    window.addEventListener('mousemove', handleMouse, { passive: true })
+    return () => window.removeEventListener('mousemove', handleMouse)
+  }, [reducedMotion])
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-[200vh]"
-      style={{ backgroundColor: '#0A0A0F' }}
-    >
-      {/* Pinned container */}
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+    <section ref={sectionRef} className="relative" aria-labelledby="hero-heading">
+      {/* One screen, everything visible on arrival. This used to be a 200vh
+          sticky scroll sequence that faded the subheadline and buttons in as you
+          scrolled — which meant landing on the page showed a headline and no
+          call to action at all. */}
+      <div className="flex min-h-screen items-center justify-center overflow-hidden py-28">
         {/* Background grid */}
         <div
           className="absolute inset-0 opacity-[0.04]"
@@ -66,10 +68,10 @@ export function Hero() {
           aria-hidden="true"
         />
 
-        {/* Aurora / Fox Fire Background */}
+        {/* Fox-fire aurora */}
         <div
           ref={auroraRef}
-          className="absolute w-[600px] h-[600px] -top-20 -right-20 rounded-full transition-transform duration-700 ease-out pointer-events-none"
+          className="pointer-events-none absolute -top-20 -right-20 h-[600px] w-[600px] rounded-full transition-transform duration-700 ease-out"
           style={{
             background:
               'radial-gradient(ellipse at 40% 40%, rgba(249,115,22,0.12) 0%, rgba(253,186,116,0.06) 30%, rgba(253,164,175,0.03) 50%, transparent 70%)',
@@ -78,7 +80,7 @@ export function Hero() {
           aria-hidden="true"
         />
         <div
-          className="absolute w-[400px] h-[400px] bottom-10 -left-20 rounded-full pointer-events-none"
+          className="pointer-events-none absolute bottom-10 -left-20 h-[400px] w-[400px] rounded-full"
           style={{
             background:
               'radial-gradient(ellipse at 60% 60%, rgba(249,115,22,0.08) 0%, transparent 60%)',
@@ -88,139 +90,132 @@ export function Hero() {
         />
 
         {/* Floating embers */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 rounded-full"
-              style={{
-                backgroundColor: `rgba(249,115,22,${0.3 + Math.random() * 0.4})`,
-                left: `${15 + Math.random() * 70}%`,
-                bottom: '-10px',
-                animation: `ember-float ${8 + Math.random() * 6}s linear ${Math.random() * 5}s infinite`,
-                width: `${1 + Math.random() * 2}px`,
-                height: `${1 + Math.random() * 2}px`,
-              }}
-            />
-          ))}
-        </div>
+        {!reducedMotion && (
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+            {EMBERS.map((ember, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  backgroundColor: `rgba(249,115,22,${ember.opacity})`,
+                  left: `${ember.left}%`,
+                  bottom: '-10px',
+                  width: `${ember.size}px`,
+                  height: `${ember.size}px`,
+                  animation: `ember-float ${ember.duration}s linear ${ember.delay}s infinite`,
+                }}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-          {/* Phase 1: Headline words */}
+        <div className="relative z-10 mx-auto max-w-6xl px-5 text-center sm:px-6">
+          <motion.p
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-fox/20 bg-fox/5 px-4 py-1.5 font-accent text-xs uppercase tracking-[0.16em] text-fox"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-fox opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-fox" />
+            </span>
+            Digital agency · {siteConfig.address.city}, {siteConfig.address.countryName}
+          </motion.p>
+
           <h1
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-bold leading-[0.95] tracking-tight mb-6"
-            style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
+            id="hero-heading"
+            className="mb-6 font-heading text-5xl font-bold leading-[0.95] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]"
           >
             {headlineWords.map((word, i) => (
               <motion.span
-                key={word}
-                className="inline-block mr-[0.25em]"
+                key={`${word.text}-${i}`}
+                className="mr-[0.25em] inline-block"
                 initial={{ opacity: 0, y: 60, rotateX: -40 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  rotateX: 0,
-                }}
+                animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{
                   duration: 0.7,
-                  delay: 1.4 + i * 0.1,
+                  delay: 0.25 + i * 0.06,
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
-                style={{
-                  color: word === 'Revenue' ? '#F97316' : '#FFFFFF',
-                }}
+                style={{ color: word.accent ? '#F97316' : '#FFFFFF' }}
               >
-                {word}
+                {word.text}
               </motion.span>
             ))}
           </h1>
 
-          {/* Phase 2: Subheadline */}
           <motion.p
-            className="text-lg md:text-xl text-kitsu-muted max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-kitsu-muted md:text-xl"
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: scrollProgress > 0.15 ? 1 : 0, y: scrollProgress > 0.15 ? 0 : 20 }}
-            transition={{ duration: 0.6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
           >
             {subheadline}
           </motion.p>
 
-          {/* Phase 4: Metrics */}
           <motion.div
-            className="flex flex-wrap justify-center gap-8 md:gap-14 mb-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: scrollProgress > 0.35 ? 1 : 0 }}
-            transition={{ duration: 0.6 }}
+            className="mb-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.85 }}
           >
-            <div className="text-center">
-              <span
-                ref={metric1.ref}
-                className="text-3xl md:text-4xl font-bold text-white block"
-                style={{ fontFamily: 'var(--font-grotesk), sans-serif' }}
-              >
-                {metric1.displayValue}
-              </span>
-              <span className="text-sm text-kitsu-dim mt-1 block">Projects Delivered</span>
-            </div>
-            <div className="text-center">
-              <span
-                ref={metric2.ref}
-                className="text-3xl md:text-4xl font-bold gradient-text-fox block"
-                style={{ fontFamily: 'var(--font-grotesk), sans-serif' }}
-              >
-                {metric2.displayValue}
-              </span>
-              <span className="text-sm text-kitsu-dim mt-1 block">Revenue Generated</span>
-            </div>
-            <div className="text-center">
-              <span
-                ref={metric3.ref}
-                className="text-3xl md:text-4xl font-bold text-white block"
-                style={{ fontFamily: 'var(--font-grotesk), sans-serif' }}
-              >
-                {metric3.displayValue}
-              </span>
-              <span className="text-sm text-kitsu-dim mt-1 block">Client Satisfaction</span>
-            </div>
+            <MagneticButton href="#contact" variant="primary" size="lg" className="font-semibold">
+              Get a fixed price
+            </MagneticButton>
+            <MagneticButton href="#pricing" variant="ghost" size="lg">
+              <span className="animated-underline">See what it costs</span>
+            </MagneticButton>
           </motion.div>
 
-          {/* Phase 5: CTAs */}
-          <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: scrollProgress > 0.6 ? 1 : 0,
-              y: scrollProgress > 0.6 ? 0 : 20,
-              scale: scrollProgress > 0.9 ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.5 }}
+          {/* Commitments, not claims — nothing here asserts a past result. */}
+          <motion.ul
+            className="mx-auto flex max-w-2xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-kitsu-dim"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.0 }}
           >
-            <MagneticButton variant="primary" size="lg" className="font-semibold">
-              Book a Free Strategy Call
-            </MagneticButton>
-            <MagneticButton variant="ghost" size="lg">
-              <span className="animated-underline">View Our Work</span>
-            </MagneticButton>
-          </motion.div>
+            {commitments.map((item) => (
+              <li key={item.label} className="flex items-center gap-2">
+                <Check className="h-3.5 w-3.5 shrink-0 text-fox" strokeWidth={2.5} />
+                {item.label}
+              </li>
+            ))}
+          </motion.ul>
         </div>
 
         {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: scrollProgress < 0.1 ? 0.6 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="w-5 h-8 border border-kitsu-border rounded-full flex justify-center pt-1.5">
-            <motion.div
-              className="w-1 h-1.5 bg-fox rounded-full"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </div>
-        </motion.div>
+        {!reducedMotion && (
+          <motion.div
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ duration: 0.4, delay: 1.2 }}
+            aria-hidden="true"
+          >
+            <div className="flex h-8 w-5 justify-center rounded-full border border-kitsu-border pt-1.5">
+              <motion.div
+                className="h-1.5 w-1 rounded-full bg-fox"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
-  );
+  )
 }
+
+/** Fixed so server and client render identically — Math.random() here caused hydration drift. */
+const EMBERS = [
+  { left: 18, size: 2, opacity: 0.5, duration: 11, delay: 0 },
+  { left: 29, size: 1.5, opacity: 0.4, duration: 9, delay: 1.6 },
+  { left: 41, size: 2.5, opacity: 0.6, duration: 13, delay: 3.1 },
+  { left: 52, size: 1, opacity: 0.35, duration: 10, delay: 0.8 },
+  { left: 63, size: 2, opacity: 0.55, duration: 12, delay: 2.4 },
+  { left: 71, size: 1.5, opacity: 0.45, duration: 8.5, delay: 4.2 },
+  { left: 80, size: 2.5, opacity: 0.5, duration: 14, delay: 1.2 },
+  { left: 88, size: 1, opacity: 0.4, duration: 10.5, delay: 3.7 },
+]

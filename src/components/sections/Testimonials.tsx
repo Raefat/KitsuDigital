@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
+import { Container } from '@/components/shared/Container';
 
 interface Testimonial {
   name: string;
@@ -83,7 +84,8 @@ export function Testimonials() {
   const scroll = (direction: 'left' | 'right') => {
     const container = scrollRef.current;
     if (!container) return;
-    const cardWidth = container.querySelector('[data-card]')?.offsetWidth || 360;
+    const cardWidth =
+      container.querySelector<HTMLElement>('[data-card]')?.offsetWidth || 360;
     const gap = 24;
     const scrollAmount = cardWidth + gap;
     container.scrollBy({
@@ -93,7 +95,12 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-24 md:py-32" id="testimonials">
+    <section
+      id="testimonials"
+      className="scroll-mt-20 py-24 md:py-32"
+      aria-labelledby="testimonials-heading"
+    >
+      <Container>
       {/* Section Heading */}
       <AnimatedSection className="text-center mb-16 md:mb-20">
         <p
@@ -103,14 +110,15 @@ export function Testimonials() {
           Testimonials
         </p>
         <h2
+          id="testimonials-heading"
           className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4"
           style={{ fontFamily: 'var(--font-jakarta)' }}
         >
           What Our Clients Say
         </h2>
         <p className="text-kitsu-muted max-w-xl mx-auto text-base md:text-lg leading-relaxed">
-          Don\'t take our word for it. Here\'s what the leaders we\'ve worked
-          with have to say about the Kitsu experience.
+          Don&apos;t take our word for it. Here&apos;s what the leaders we&apos;ve
+          worked with have to say about the Kitsu experience.
         </p>
       </AnimatedSection>
 
@@ -251,6 +259,7 @@ export function Testimonials() {
           </button>
         </div>
       </div>
+      </Container>
     </section>
   );
 }

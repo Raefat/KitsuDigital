@@ -2,52 +2,56 @@
 
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
 
+/**
+ * Comparisons name things a buyer can check afterwards. Vague superlatives
+ * ("award-worthy", "cutting-edge") were removed — an unverifiable boast on a
+ * comparison table undermines the rows that are actually true.
+ */
 const comparisons = [
   {
-    label: 'Delivery',
-    traditional: '3–6 months',
-    kitsu: '2–4 weeks',
+    label: 'Price',
+    traditional: 'Quote only after a sales call',
+    kitsu: 'Published, and fixed before we start',
   },
   {
-    label: 'Approach',
-    traditional: 'Feature-list thinking',
-    kitsu: 'Business-first, outcome-driven',
+    label: 'Timeline',
+    traditional: 'Three to six months, often longer',
+    kitsu: 'Three weeks for a standard site',
   },
   {
-    label: 'Tech Stack',
-    traditional: 'Outdated, rigid',
-    kitsu: 'Modern, cutting-edge',
+    label: 'Speed',
+    traditional: 'Built on a heavy page builder',
+    kitsu: 'Under two seconds on mobile data',
   },
   {
-    label: 'AI',
-    traditional: 'Manual processes',
-    kitsu: 'AI-powered workflows',
+    label: 'Search',
+    traditional: 'SEO sold separately, later',
+    kitsu: 'Structure, sitemap and Google setup included',
   },
   {
-    label: 'Communication',
-    traditional: 'Slow responses, black box',
-    kitsu: 'Transparent, real-time updates',
+    label: 'Text',
+    traditional: 'You write it yourself',
+    kitsu: 'We write it, in the package',
   },
   {
-    label: 'Architecture',
-    traditional: 'Fragile, hard to scale',
-    kitsu: 'Scalable from day one',
+    label: 'Ownership',
+    traditional: 'Domain and hosting under their account',
+    kitsu: 'Everything in your name from day one',
   },
   {
-    label: 'Design',
-    traditional: 'Generic templates',
-    kitsu: 'Bespoke, award-worthy',
-  },
-  {
-    label: 'Performance',
-    traditional: 'Slow, unoptimized',
-    kitsu: 'Blazing fast, SEO-ready',
+    label: 'After launch',
+    traditional: 'Silence, then an invoice',
+    kitsu: '30 days of fixes, no lock-in after',
   },
 ];
 
 export function WhyChooseUs() {
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section
+      id="why-kitsu"
+      className="relative scroll-mt-20 overflow-hidden py-24 md:py-32"
+      aria-labelledby="why-kitsu-heading"
+    >
       {/* Background subtle glow */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full pointer-events-none"
@@ -64,18 +68,19 @@ export function WhyChooseUs() {
         <AnimatedSection direction="up" delay={0}>
           <div className="text-center mb-16 md:mb-20">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-fox" style={{ fontFamily: 'var(--font-grotesk), sans-serif' }}>
-              The difference is clear
+              The difference
             </p>
             <h2
+              id="why-kitsu-heading"
               className="mb-4 text-3xl md:text-4xl lg:text-5xl font-bold text-white"
               style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
             >
-              Why Brands Choose{' '}
-              <span className="gradient-text-fox">Kitsu</span>
+              What you get that you{' '}
+              <span className="gradient-text-fox">usually don&apos;t</span>
             </h2>
             <p className="max-w-2xl mx-auto text-base md:text-lg text-kitsu-muted leading-relaxed">
-              We don't just build websites — we engineer revenue machines. Here's
-              how we stack up against the status quo.
+              Every row below is something you can hold us to, in writing, before you pay
+              anything.
             </p>
           </div>
         </AnimatedSection>

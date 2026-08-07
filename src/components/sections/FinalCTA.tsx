@@ -2,6 +2,7 @@
 
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
 import { MagneticButton } from '@/components/shared/MagneticButton';
+import { siteConfig } from '@/config/site';
 
 export function FinalCTA() {
   return (
@@ -87,28 +88,28 @@ export function FinalCTA() {
             className="mb-6 text-3xl font-bold leading-tight text-white md:text-5xl lg:text-6xl"
             style={{ fontFamily: 'var(--font-jakarta), sans-serif' }}
           >
-            Ready to Build Something That{' '}
-            <span className="gradient-text-fox">Actually Converts</span>?
+            Tell us what you need.{' '}
+            <span className="gradient-text-fox">We&apos;ll price it in two days.</span>
           </h2>
         </AnimatedSection>
 
         <AnimatedSection direction="up" delay={0.15}>
           <p className="mx-auto mb-10 max-w-xl text-base text-kitsu-muted leading-relaxed md:text-lg">
-            Join 147+ brands that chose Kitsu to build their digital presence.
-            Your competitors are not waiting — neither should you.
+            A short conversation, then a fixed quote in writing. No obligation, and
+            no one will chase you afterwards.
           </p>
         </AnimatedSection>
 
         <AnimatedSection direction="up" delay={0.3}>
           <div className="flex flex-col items-center gap-5">
-            <MagneticButton variant="primary" size="lg" className="font-semibold">
-              Book Your Free Strategy Call
+            <MagneticButton href="#contact" variant="primary" size="lg" className="font-semibold">
+              Get a fixed quote
             </MagneticButton>
             <a
-              href="mailto:hello@kitsudigital.com"
+              href={`mailto:${siteConfig.contact.email}`}
               className="text-sm text-kitsu-dim transition-colors duration-300 hover:text-kitsu-muted"
             >
-              hello@kitsudigital.com
+              {siteConfig.contact.email}
             </a>
           </div>
         </AnimatedSection>
